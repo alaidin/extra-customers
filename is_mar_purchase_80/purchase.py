@@ -52,7 +52,12 @@ class purchase_order(models.Model):
                 line = obj_order_line.browse(vals['purchase_line_id'])
                 if line.partner_dest_id:
                     vals.update({
-                                  'partner_id': line.partner_dest_id.id,
+                                  'restrict_partner_id': line.partner_dest_id.id,
+                                  'partner_id': line.partner_dest_id.id,                                  
+                                  })
+                if line.serial_id:
+                    vals.update({
+                                  'restrict_lot_id': line.serial_id.id,
                                   })
 
         return res
@@ -72,6 +77,7 @@ class purchase_order_line(models.Model):
     _inherit = "purchase.order.line"
 
     partner_dest_id = fields.Many2one("res.partner","Destination",readonly=True,states={'draft':[('readonly',False)]})
+    serial_id = fields.Many2one("stock.production.lot", "Serial")
     
     @api.onchange('product_qty')
     def _onchange_product_qty(self):

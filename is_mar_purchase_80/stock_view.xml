@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        
+
+        <record id="quants_collection_actionform" model="ir.actions.act_window">
+            <field name="name">Collections to do</field>
+            <field name="res_model">stock.quant</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="context" eval="{'search_default_location_id':ref('is_mar_purchase_80.waiting_supplier_stock')}"/>
+            <field name="domain">[]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a ....
+                </p>
+                <p>
+                    Add some collections .........
+                </p>
+            </field>
+        </record>
+        <menuitem action="quants_collection_actionform" id="quants_collection_menu" parent="stock.menu_stock_warehouse_mgmt" sequence="10"/>
+
+    </data>
+</openerp>

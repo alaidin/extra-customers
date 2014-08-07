@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_collection_add" model="ir.ui.view">
+            <field name="name">Add Collection</field>
+            <field name="model">collection.create</field>
+            <field name="arch" type="xml">
+               <form string="Collection creation">
+                    <group>
+                        <separator string="Select a driver?"/>
+                        <p/>
+                        <field name="driver_id"/>     
+                        <field name="date_expected"/>                
+                    </group>
+                    
+                    <footer>
+                        <button name="collection_creation" string="Create" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window name="Create collection"
+            res_model="collection.create"
+            src_model="stock.quant"
+            view_mode="form"
+            target="new"
+            multi="True"
+            key2="client_action_multi"
+            id="action_view_collection_add"/>
+
+    </data>
+</openerp>
+

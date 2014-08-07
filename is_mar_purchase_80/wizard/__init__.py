@@ -18,28 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-{
-    'name' : 'is_mar_purchase',
-    'summary' : 'Specific purchase MAR',
-    'version' : '0.1',
-    'author' : 'IS',
-    'category' : 'Purchase management',
-    'description' : """
-    """,
-    'website': '',
-    'depends' : ['purchase','hr'],
-    'data': [
-#         'security/account_security.xml',
-#         'security/ir.model.access.csv',
-            
-            'purchase_view.xml',            
-            'purchase_workflow.xml',
-            'purchase_data.xml',
-            'stock_view.xml',          
-            'wizard/collection_view.xml',  
-    ],
-    'installable': True,
-    'auto_install': False,
-}
+
+from . import collection
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

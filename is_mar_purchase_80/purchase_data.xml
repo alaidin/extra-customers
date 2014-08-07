@@ -4,8 +4,22 @@
 
         <record id="waiting_supplier_stock" model="stock.location">
             <field name="name">Waiting supplier stock</field>
-            <field name="usage">supplier</field>
+            <field name="usage">internal</field>
             <field name="location_id" ref="stock.stock_location_locations_partner"/>
+        </record>
+
+        <record id="picking_type_collection_sequence" model="ir.sequence">
+            <field name="name">Collections Sequence</field>
+            <field name="padding">5</field>
+            <field name="prefix">WH/CO</field>
+        </record>
+    
+        <record id="picking_type_collection" model="stock.picking.type">
+            <field name="name">Collections</field>
+            <field name="sequence_id" ref="picking_type_collection_sequence"/>
+            <field name="code">incoming</field>
+            <field name="default_location_src_id" ref="waiting_supplier_stock"/>
+            <field name="default_location_dest_id" ref="stock.stock_location_stock"/>
         </record>
 
     </data>
