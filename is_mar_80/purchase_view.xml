@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <menuitem id="menu_collection_management" name="Collection"
+            parent="base.menu_purchase_root" sequence="50" />
+
+        <record id="view_collection_collection_tree" model="ir.ui.view">
+            <field name="name">collection.collection.tree</field>
+            <field name="model">collection.collection</field>
+            <field name="arch" type="xml">
+                <tree colors="blue:state == 'draft';gray:state == 'cancel'" string="Collection" fonts="bold:message_unread == True">
+                    <field name="name"/>
+                    <field name="quantity" sum="Total Quantity"/>
+                    <field name="duration"/>
+                    <field name="date_receipt"/>
+                    <field name="state" invisible="1"/>
+                    <field name="message_unread" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_collection_collection_form" model="ir.ui.view">
+            <field name="name">collection.collection.form</field>
+            <field name="model">collection.collection</field>
+            <field name="arch" type="xml">
+                <form string="Collection">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,full,done"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="duration"/>
+                            <field name="date_receipt"/>
+                        </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_collection_collection_filter" model="ir.ui.view">
+            <field name="name">collection.collection.select</field>
+            <field name="model">collection.collection</field>
+            <field name="arch" type="xml">
+                <search string="Collection Search">
+                        <field name="name"/>
+                        <group expand="0" string="Group By">
+                            <filter string="States" name="groupe_state" domain="[]" context="{'group_by':'state'}"/>
+                        </group>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_collection_collection_kanban">
+            <field name="name">collection.collection.kanban</field>
+            <field name="model">collection.collection</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_vignette oe_kanban_card">
+                                    <div class="oe_kanban_content">
+                                        <div>
+                                            <b>
+                                                <a type="open"><field name="name"/></a>
+                                            </b>
+                                            <field name="quantity"/>
+                                        </div>
+                                    </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_collection_collection_graph">
+            <field name="name">collection.collection.graph</field>
+            <field name="model">collection.collection</field>
+            <field name="arch" type="xml">
+                <graph string="Collections" type="bar">
+                    <field name="name" type="row"/>
+                    <field name="quantity" operator="+"/>
+                </graph>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_collection_collection_calendar">
+            <field name="name">collection.collection.calendar</field>
+            <field name="model">collection.collection</field>
+            <field name="arch" type="xml">
+                <calendar string="Collections" date_start="date_receipt" date_delay="duration" color="name">
+                    <field name="name"/>                    
+                </calendar>
+            </field>
+        </record>
+
+        <record id="collection_collection_actionform" model="ir.actions.act_window">
+            <field name="name">Collections</field>
+            <field name="res_model">collection.collection</field>
+            <field name="view_mode">tree,form,kanban,graph,calendar</field>
+            <field name="context">{}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" ref="view_collection_collection_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to add a collection
+                </p>
+                <p>
+                    Add some collections .........
+                </p>
+            </field>
+        </record>
+        <menuitem action="collection_collection_actionform" id="collection_collection_menu" parent="menu_collection_management" sequence="1"/>
+
+        
+    </data>
+</openerp>

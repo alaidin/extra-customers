@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="purchase.trans_picking_picking_done" model="workflow.transition">
+            <field name="condition">is_direct_receipt==False</field>
+        </record>
+
+        <record id="trans_picking_picking_done_direct" model="workflow.transition">
+            <field name="act_from" ref="purchase.act_picking"/>
+            <field name="act_to" ref="purchase.act_picking_done"/>
+            <field name="condition">is_direct_receipt==True</field>
+        </record>
+    </data>
+</openerp>

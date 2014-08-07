@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="waiting_supplier_stock" model="stock.location">
+            <field name="name">Waiting supplier stock</field>
+            <field name="usage">supplier</field>
+            <field name="location_id" ref="stock.stock_location_locations_partner"/>
+        </record>
+
+    </data>
+
+    <data noupdate="0">
+
+        <record id="stock.picking_type_in" model="stock.picking.type">
+            <field name="default_location_dest_id" ref="waiting_supplier_stock"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="stock.picking_type_in" model="stock.picking.type"/>
+    </data>
+
+</openerp>
