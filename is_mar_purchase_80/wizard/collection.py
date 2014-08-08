@@ -110,6 +110,7 @@ class collection_create(models.TransientModel):
 
         todo_moves.action_confirm()
         todo_moves.action_assign()
+        todo_moves.split_operation_serial()
     
     @api.one
     def collection_creation(self):
