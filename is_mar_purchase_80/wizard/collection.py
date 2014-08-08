@@ -27,7 +27,7 @@ class collection_create(models.TransientModel):
     _description = "Transient collection creation"
     
     driver_id = fields.Many2one("hr.employee","Driver")
-    date_expected = fields.Datetime("Date expected")
+    date_expected = fields.Datetime("Date expected", required=True, default=fields.Datetime.now())
     name = fields.Char("Name", size=128)
     
     @api.model
@@ -96,7 +96,7 @@ class collection_create(models.TransientModel):
         return move_template
     
     @api.model
-    def _create_stock_moves(self, wizard, quants, picking=False):
+    def _create_stock_moves(self, wizard, quants, picking):
         obj_stock_move = self.env['stock.move']
         todo_moves = self.env['stock.move']
         obj_group = self.env["procurement.group"]
@@ -106,11 +106,12 @@ class collection_create(models.TransientModel):
         for quant in quants:
             vals = self._prepare_lines_move(wizard, quant, picking, new_group)
             move = obj_stock_move.create(vals)
+            quant.write({'reservation_id': move.id})
             todo_moves += move
 
         todo_moves.action_confirm()
         todo_moves.action_assign()
-        todo_moves.split_operation_serial()
+#         todo_moves.split_operation_serial()
     
     @api.one
     def collection_creation(self):
@@ -124,7 +125,10 @@ class collection_create(models.TransientModel):
             if not picking_type:
                 raise exceptions.MissingError(_('Picking type collection has been deleted'))
             
-            picking = obj_stock_picking.create({'picking_type_id':picking_type.id})
+            picking = obj_stock_picking.create({
+                                                'picking_type_id':picking_type.id,
+                                                'driver_id': self.driver_id.id
+                                                 })
             
             obj_quant = self.env['stock.quant']
             quants = obj_quant.browse(quant_ids)
