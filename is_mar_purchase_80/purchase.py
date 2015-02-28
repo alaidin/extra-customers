@@ -50,6 +50,9 @@ class purchase_order(models.Model):
         for vals in res:
             if vals.get('purchase_line_id'):
                 line = obj_order_line.browse(vals['purchase_line_id'])
+                vals.update({
+                            'supplier_id': line.partner_id
+                            })
                 if line.partner_dest_id:
                     vals.update({
                                   'restrict_partner_id': line.partner_dest_id.id,

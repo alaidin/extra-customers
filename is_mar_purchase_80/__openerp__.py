@@ -29,7 +29,7 @@
     'website': '',
     'depends' : ['purchase','hr'],
     'data': [
-#         'security/account_security.xml',
+        'security/stock_security.xml',
 #         'security/ir.model.access.csv',
             
             'purchase_view.xml',            

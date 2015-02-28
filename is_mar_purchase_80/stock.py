@@ -26,6 +26,24 @@ class stock_picking(models.Model):
     _inherit = "stock.picking"
     
     driver_id = fields.Many2one('hr.employee', "Driver")
+
+class stock_move(models.Model):
+    _inherit = 'stock.move'
     
+    supplier_id = fields.Many2one("res.partner", "Supplier from", read_only=True)
+    
+    @api.one
+    def copy(default=None):
+        default = default or {}
+        if not default.get('split_from'):
+            #we don't want to propagate the link to the purchase order line except in case of move split
+            default['supplier_id'] = False
+            
+        return super(stock_move, self).copy(default)
+
+class stock_quant(models.Model):
+    _inherit = 'stock.quant'
+    
+    supplier_id = fields._Relational()
         
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
